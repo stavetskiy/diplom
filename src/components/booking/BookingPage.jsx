@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { auth, db } from "../firebase";
+import { auth, db } from "../../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import TableMap from "../components/booking/TableMap";
-import BookingConfirmation from "../components/booking/BookingConfirmation";
-import Header from "../components/Header";
+import TableMap from "../map/TableMap";
+import BookingConfirmation from "./BookingConfirmation";
+import Header from "../Header";
 
 const BookingPage = () => {
   const [userId, setUserId] = useState(null);

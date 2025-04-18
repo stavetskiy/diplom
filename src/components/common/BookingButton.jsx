@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { auth } from "../firebase";
+import { auth } from "../../firebase";
 import ModalWarning from "./ModalWarning"; // не забудь створити цей файл
 
 const BookingButton = () => {

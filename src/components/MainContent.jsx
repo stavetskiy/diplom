@@ -1,8 +1,8 @@
 import React from "react";
-import BookingButton from "./BookingButton";
-import ShowOnMapButton from "./ShowOnMapButton";
-import WorkingHours from "./WorkingHours";
-import AboutRestaurant from "./AboutRestaurant";
+import BookingButton from "./common/BookingButton";
+import ShowOnMapButton from "./common/ShowOnMapButton";
+import WorkingHours from "./info/WorkingHours";
+import AboutRestaurant from "./info/AboutRestaurant";
 import { isRestaurantOpen } from "../utils/isRestaurantOpen";
 
 const MainContent = () => {

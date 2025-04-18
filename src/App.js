@@ -1,8 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage"; // Головна сторінка
-import BookingPage from "./pages/BookingPage"; // Сторінка бронювання
+import BookingPage from "./components/booking/BookingPage"; // Сторінка бронювання
 import AuthPage from "./pages/AuthPage";
-import ProfilePage from "./pages/ProfilePage";
 import { useEffect } from "react";
 // import { seedTables } from "./utils/seedTables";
 import BookingsPage from "./pages/profile/BookingsPage";

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createReservation } from "../../firebase/reservationService";
-import GuestSuccessModal from "./GuestSuccessModal";
+import GuestSuccessModal from "../common/GuestSuccessModal";
 
 const BookingConfirmation = ({
   table,
