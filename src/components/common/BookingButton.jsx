@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { auth } from "../../firebase";
-import ModalWarning from "./ModalWarning"; // не забудь створити цей файл
+import ModalWarning from "./modal/ModalWarning";
 
 const BookingButton = () => {
   const navigate = useNavigate();
@@ -27,9 +27,9 @@ const BookingButton = () => {
     <>
       <button
         onClick={handleClick}
-        className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700"
+        className="px-6 py-3 bg-red-600 text-white rounded-3xl shadow-md hover:bg-red-700 transition text-base font-semibold"
       >
-        Забронювати столик
+        Резервування
       </button>
 
       {showModal && (

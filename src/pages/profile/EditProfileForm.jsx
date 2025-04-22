@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { updateEmail, updatePassword } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 
@@ -60,28 +59,16 @@ const EditProfileForm = ({ userId, onNameUpdate }) => {
     if (!validateProfile()) return;
 
     try {
-      const updateData = {
+      await updateDoc(doc(db, "users", userId), {
         name,
         surname,
         phone,
-        email,
-      };
-
-      if (email !== user.email) {
-        updateData.pendingEmail = email;
-        updateData.email = user.email; // зберігаємо старий email як основний
-      }
-
-      await updateDoc(doc(db, "users", userId), updateData);
+        email, // зберігаємо лише в Firestore
+      });
 
       if (onNameUpdate) onNameUpdate(name);
 
-      if (updateData.pendingEmail) {
-        setMessage("✅ Email збережено як очікуваний. Потрібне підтвердження.");
-      } else {
-        setMessage("✅ Дані профілю успішно оновлено");
-      }
-
+      setMessage("✅ Дані профілю успішно збережено");
       setError("");
     } catch (err) {
       setError("❌ Помилка оновлення профілю: " + err.message);
@@ -89,7 +76,7 @@ const EditProfileForm = ({ userId, onNameUpdate }) => {
     }
   };
 
-  const handleChangePassword = async () => {
+  const handleChangePassword = () => {
     if (newPassword.length < 6) {
       setError("Пароль має містити щонайменше 6 символів");
       setMessage("");
@@ -102,16 +89,11 @@ const EditProfileForm = ({ userId, onNameUpdate }) => {
       return;
     }
 
-    try {
-      await updatePassword(user, newPassword);
-      setMessage("✅ Пароль успішно змінено");
-      setError("");
-      setNewPassword("");
-      setConfirmPassword("");
-    } catch (err) {
-      setError("❌ Помилка зміни пароля: " + err.message);
-      setMessage("");
-    }
+    // Пароль не змінюється, просто імітація:
+    setMessage("✅ Новий пароль прийнято (тільки візуально)");
+    setError("");
+    setNewPassword("");
+    setConfirmPassword("");
   };
 
   return (

@@ -7,6 +7,8 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import Header from "../components/Header";
 import { useNavigate, useLocation } from "react-router-dom";
+import Footer from "../components/Footer";
+import photo1 from "../assets/photo1.jpg";
 
 const AuthPage = () => {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -121,15 +123,97 @@ const AuthPage = () => {
   };
 
   return (
-    <>
+    <div
+      className="relative min-h-screen bg-cover bg-center flex flex-col"
+      style={{ backgroundImage: `url(${photo1})` }}
+    >
+      <div className="absolute inset-0 bg-black/40 z-0" />
       <Header />
-      <div className="max-w-md mx-auto mt-12 p-6 bg-white rounded shadow">
-        <h2 className="text-2xl font-bold mb-4">
-          {isRegistering ? "Реєстрація" : "Вхід"}
-        </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {isRegistering && (
-            <>
+
+      <main className="relative z-10 flex items-center justify-center px-4 mt-40 mb-40">
+        <div className="bg-white bg-opacity-95 p-8 rounded-2xl shadow-xl max-w-md w-full min-h-[520px] transition-all duration-300 ease-in-out">
+          <h2 className="text-3xl font-bold text-center text-red-600 mb-2">
+            Flavorium
+          </h2>
+          <p className="text-center text-sm text-gray-600 mb-6">
+            Увійдіть, щоб керувати бронюваннями або зареєструйтесь
+          </p>
+
+          {/* Блок ВХОДУ */}
+          <div
+            className={`transition-all duration-300 transform ${
+              isRegistering
+                ? "opacity-0 scale-95 absolute pointer-events-none"
+                : "opacity-100 scale-100 relative"
+            }`}
+          >
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <input
+                  type="email"
+                  placeholder="Ел. пошта"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full border p-2 rounded"
+                />
+                {fieldErrors.email && (
+                  <p className="text-red-500 text-sm">{fieldErrors.email}</p>
+                )}
+              </div>
+              <div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Пароль"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full border p-2 rounded"
+                />
+                <button
+                  type="button"
+                  className="text-sm text-blue-600 mt-1 hover:underline"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? "Приховати пароль" : "Показати пароль"}
+                </button>
+                {fieldErrors.password && (
+                  <p className="text-red-500 text-sm">{fieldErrors.password}</p>
+                )}
+              </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+              >
+                {loading ? "Зачекайте..." : "Увійти"}
+              </button>
+              {error && <p className="text-red-500 text-sm">{error}</p>}
+            </form>
+            <p className="mt-4 text-sm text-center">
+              Немає акаунту?{" "}
+              <button
+                className="text-blue-600 hover:underline"
+                onClick={() => {
+                  setIsRegistering(true);
+                  setFieldErrors({});
+                  setError("");
+                  setPassword("");
+                  setRepeatPassword("");
+                }}
+              >
+                Зареєструватися
+              </button>
+            </p>
+          </div>
+
+          {/* Блок РЕЄСТРАЦІЇ */}
+          <div
+            className={`transition-all duration-300 transform ${
+              isRegistering
+                ? "opacity-100 scale-100 relative"
+                : "opacity-0 scale-95 absolute pointer-events-none"
+            }`}
+          >
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <input
                   type="text"
@@ -166,85 +250,81 @@ const AuthPage = () => {
                   <p className="text-red-500 text-sm">{fieldErrors.phone}</p>
                 )}
               </div>
-            </>
-          )}
-          <div>
-            <input
-              type="email"
-              placeholder="Ел. пошта"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full border p-2 rounded"
-            />
-            {fieldErrors.email && (
-              <p className="text-red-500 text-sm">{fieldErrors.email}</p>
-            )}
+              <div>
+                <input
+                  type="email"
+                  placeholder="Ел. пошта"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full border p-2 rounded"
+                />
+                {fieldErrors.email && (
+                  <p className="text-red-500 text-sm">{fieldErrors.email}</p>
+                )}
+              </div>
+              <div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Пароль"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full border p-2 rounded"
+                />
+                <button
+                  type="button"
+                  className="text-sm text-blue-600 mt-1 hover:underline"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? "Приховати пароль" : "Показати пароль"}
+                </button>
+                {fieldErrors.password && (
+                  <p className="text-red-500 text-sm">{fieldErrors.password}</p>
+                )}
+              </div>
+              <div>
+                <input
+                  type="password"
+                  placeholder="Повторіть пароль"
+                  value={repeatPassword}
+                  onChange={(e) => setRepeatPassword(e.target.value)}
+                  className="w-full border p-2 rounded"
+                />
+                {fieldErrors.repeatPassword && (
+                  <p className="text-red-500 text-sm">
+                    {fieldErrors.repeatPassword}
+                  </p>
+                )}
+              </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+              >
+                {loading ? "Зачекайте..." : "Зареєструватися"}
+              </button>
+              {error && <p className="text-red-500 text-sm">{error}</p>}
+            </form>
+            <p className="mt-4 text-sm text-center">
+              Вже маєте акаунт?{" "}
+              <button
+                className="text-blue-600 hover:underline"
+                onClick={() => {
+                  setIsRegistering(false);
+                  setFieldErrors({});
+                  setError("");
+                  setPassword("");
+                  setRepeatPassword("");
+                }}
+              >
+                Увійти
+              </button>
+            </p>
           </div>
-          <div>
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Пароль"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full border p-2 rounded"
-            />
-            <button
-              type="button"
-              className="text-sm text-blue-600 mt-1 hover:underline"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? "Приховати пароль" : "Показати пароль"}
-            </button>
-            {fieldErrors.password && (
-              <p className="text-red-500 text-sm">{fieldErrors.password}</p>
-            )}
-          </div>
-          {isRegistering && (
-            <div>
-              <input
-                type="password"
-                placeholder="Повторіть пароль"
-                value={repeatPassword}
-                onChange={(e) => setRepeatPassword(e.target.value)}
-                className="w-full border p-2 rounded"
-              />
-              {fieldErrors.repeatPassword && (
-                <p className="text-red-500 text-sm">
-                  {fieldErrors.repeatPassword}
-                </p>
-              )}
-            </div>
-          )}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-          >
-            {loading
-              ? "Зачекайте..."
-              : isRegistering
-              ? "Зареєструватися"
-              : "Увійти"}
-          </button>
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-        </form>
-        <p className="mt-4 text-sm text-center">
-          {isRegistering ? "Вже маєте акаунт?" : "Немає акаунту?"}{" "}
-          <button
-            className="text-blue-600 hover:underline"
-            onClick={() => {
-              setIsRegistering(!isRegistering);
-              setFieldErrors({});
-              setError("");
-              setPassword("");
-              setRepeatPassword("");
-            }}
-          >
-            {isRegistering ? "Увійти" : "Зареєструватися"}
-          </button>
-        </p>
-      </div>
-    </>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
   );
 };
 

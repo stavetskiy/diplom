@@ -1,4 +1,3 @@
-// src/components/WorkingHours.jsx
 import React from "react";
 
 const workingHours = [
@@ -13,11 +12,16 @@ const workingHours = [
 
 const WorkingHours = () => {
   return (
-    <div className="bg-white shadow rounded-lg p-6 w-full md:w-1/2">
-      <h2 className="text-2xl font-bold mb-4">Графік роботи</h2>
-      <ul className="text-gray-700 space-y-1">
+    <div className="bg-white border border-gray-300 shadow-md rounded-xl p-6 w-full md:w-1/2">
+      <h2 className="text-3xl mb-5 font-semibold text-gray-800">
+        Графік роботи
+      </h2>
+      <ul className="text-gray-800 space-y-2 text-base md:text-lg">
         {workingHours.map(({ day, time }) => (
-          <li key={day} className="flex justify-between border-b pb-1">
+          <li
+            key={day}
+            className="flex justify-between border-b-2 border-gray-200 pb-2"
+          >
             <span>{day}</span>
             <span>{time}</span>
           </li>
