@@ -21,6 +21,7 @@ const BookingPage = () => {
   const [selectedTableId, setSelectedTableId] = useState(null);
   const [selectedTable, setSelectedTable] = useState(null);
   const [guestSuccessData, setGuestSuccessData] = useState(null);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   const [searchParams] = useSearchParams();
   const isGuest = searchParams.get("guest") === "true";
@@ -133,8 +134,34 @@ const BookingPage = () => {
 
         {/* RIGHT SIDE: MAP or Placeholder */}
         <div className="w-full max-w-[550px] mx-auto space-y-4">
-          <div className="flex items-center gap-2">
-            <h2 className="text-xl font-semibold">Крок 2: Вибір столу</h2>
+          <div className="relative inline-block">
+            <div className="flex items-center gap-2">
+              <h2 className="text-xl font-semibold">Крок 2: Вибір столу</h2>
+              <span
+                onMouseEnter={() => setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
+                className="text-blue-500 text-lg cursor-pointer select-none"
+              >
+                ❔
+              </span>
+            </div>
+
+            {showTooltip && (
+              <div className="absolute right-0 mt-2 w-[300px] bg-white border border-gray-300 shadow-md rounded p-3 text-sm text-gray-800 z-50">
+                <p className="font-semibold mb-1">Кольори столів:</p>
+                <ul className="list-disc list-inside mb-2">
+                  <li>🟡 Жовтий — столик на 2 особи</li>
+                  <li>🟠 Помаранчевий — на 4 особи</li>
+                  <li>🔵 Бірюзовий — на 6 осіб</li>
+                  <li>⚪ Сірий — заброньований</li>
+                </ul>
+                <p>
+                  Якщо ви не знайшли підходящий для вас стіл або вас більше ніж
+                  8 людей, <br />
+                  зателефонуйте: <strong>+380 (61) 228-75-08</strong>
+                </p>
+              </div>
+            )}
           </div>
 
           {step >= 2 && selectedDate && selectedTime && duration ? (
